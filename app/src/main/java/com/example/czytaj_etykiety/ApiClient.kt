@@ -1,4 +1,4 @@
-package com.example.czytaj_etykiety.api
+package com.example.czytaj_etykiety
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

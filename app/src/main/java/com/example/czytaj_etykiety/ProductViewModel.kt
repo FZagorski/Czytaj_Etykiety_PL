@@ -2,8 +2,6 @@ package com.example.czytaj_etykiety
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.czytaj_etykiety.api.ApiClient
-import com.example.czytaj_etykiety.models.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
