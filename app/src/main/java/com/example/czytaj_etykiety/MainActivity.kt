@@ -7,7 +7,10 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -142,6 +145,9 @@ fun MainScreen() {
             null
         }
     }
+    val isPolish = remember(product) {
+        product?.isFromPoland() ?: false
+    }
 
     if (showAllergenMenu) {
         AllergensScreen(
@@ -225,6 +231,7 @@ fun MainScreen() {
                         ProductCard(
                             product = product!!,
                             productSafety = productSafety,
+                            isPolish = isPolish,  // === NOWY PARAMETR ===
                             onClear = {
                                 scannedCode = ""
                                 productViewModel.clearProduct()
@@ -283,7 +290,7 @@ fun SafetyIndicator(productSafety: AllergensManager.ProductSafety?) {
                 ) {
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "BEZPIECZNY - Nie zawiera twoich alergenów",
+                        text = "BEZPIECZNY",
                         color = Color(0xFF4CAF50),
                         fontWeight = FontWeight.Bold
                     )
@@ -306,7 +313,7 @@ fun SafetyIndicator(productSafety: AllergensManager.ProductSafety?) {
                     ) {
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "NIEBEZPIECZNY - Zawiera twoje alergeny!",
+                            text = "NIEBEZPIECZNY",
                             color = Color(0xFFF44336),
                             fontWeight = FontWeight.Bold
                         )
@@ -353,18 +360,22 @@ fun SafetyIndicator(productSafety: AllergensManager.ProductSafety?) {
 fun ProductCard(
     product: Product,
     productSafety: AllergensManager.ProductSafety?,
+    isPolish: Boolean,
     onClear: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(10.dp).verticalScroll(rememberScrollState()),
         ) {
             Text(
                 text = "Znaleziono produkt!",
-                fontSize = 20.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -373,24 +384,46 @@ fun ProductCard(
 
             Text(
                 text = product.getDisplayName(),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             product.brands?.let { brand ->
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Marka: $brand",
-                    fontSize = 18.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
+
+            Text(
+                text = if (isPolish) "Produkt polski" else "Produkt zagraniczny",
+                fontSize = 14.sp,
+                color = if (isPolish) Color.Red else MaterialTheme.colorScheme.onSurface
+            )
 
             product.quantity?.let { quantity ->
                 Text(
                     text = "Ilość: $quantity",
-                    fontSize = 16.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
+
+            Text(
+                text = "Kalorie:",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            Text(
+                text = product.getKcalText(),
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -405,7 +438,8 @@ fun ProductCard(
                 text = product.getDisplayIngredients(),
                 fontSize = 14.sp,
                 modifier = Modifier.padding(top = 4.dp),
-                lineHeight = 18.sp
+                lineHeight = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -414,10 +448,11 @@ fun ProductCard(
                 onClick = onClear,
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = Color.Black
                 )
             ) {
-                Text("Skanuj kolejny produkt")
+                Text("Zamknij")
             }
         }
     }
