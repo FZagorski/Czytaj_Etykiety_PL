@@ -38,34 +38,10 @@ data class Product(
         }
     }
 
-    fun getKcal(): Double? {
-        return nutriments?.get("energy-kcal_100g")
-            ?: nutriments?.get("energy-kcal")
-            ?: nutriments?.get("energy_100g")?.let { it / 4.184 }
-    }
-
-    fun getKcalText(): String {
-        val kcal = getKcal()
-        return if (kcal != null) {
-            "${kcal.toInt()} kcal / 100g"
-        } else {
-            "Brak danych"
-        }
-    }
     fun isFromPoland(): Boolean {
-        if (countries.isNullOrBlank()) return false
-        val polishKeywords = listOf(
-            "Poland",
-            "Polska",
-            "PL",
-            "pl",
-            "Poland,",
-            "Polska,"
-        )
-        return polishKeywords.any { keyword ->
-            countries?.contains(keyword, ignoreCase = true) == true
+        return barcode.startsWith("590")
         }
-    }
+
 }
 
 

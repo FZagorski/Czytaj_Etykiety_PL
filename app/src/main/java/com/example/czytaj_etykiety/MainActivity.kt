@@ -231,7 +231,7 @@ fun MainScreen() {
                         ProductCard(
                             product = product!!,
                             productSafety = productSafety,
-                            isPolish = isPolish,  // === NOWY PARAMETR ===
+                            isPolish = isPolish,
                             onClear = {
                                 scannedCode = ""
                                 productViewModel.clearProduct()
@@ -412,18 +412,6 @@ fun ProductCard(
                 )
             }
 
-            Text(
-                text = "Kalorie:",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-
-            Text(
-                text = product.getKcalText(),
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurface
-            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
