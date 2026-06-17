@@ -45,19 +45,6 @@ fun AllergensScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Zaznacz swoje alergeny (${selectedAllergens.size} wybranych):",
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                fontWeight = FontWeight.Medium
-            )
-        }
 
         Spacer(modifier = Modifier.height(12.dp))
 

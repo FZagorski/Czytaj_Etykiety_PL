@@ -40,7 +40,7 @@ object AllergensManager {
     )
 
     private val SELECTED_ALLERGENS_KEY = stringSetPreferencesKey("selected_allergens")
-    private val ALLERGENS_ENABLED_KEY = booleanPreferencesKey("allergens_enabled")
+
 
     fun getAllAllergens(): List<Pair<String, String>> = ALL_ALLERGENS
 

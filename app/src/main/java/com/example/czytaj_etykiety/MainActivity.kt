@@ -353,6 +353,8 @@ fun SafetyIndicator(productSafety: AllergensManager.ProductSafety?) {
 
         null -> {
         }
+
+        else -> {}
     }
 }
 
